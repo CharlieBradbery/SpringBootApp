@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<a href="../../index.jsp">Back to main menu</a>
+<br/>
+<br/>
+<h1>List of users</h1>
+
+
+
+<table cellpadding="10" border="1">
+    <tr>
+        <th th:width="40">ID</th>
+        <th th:width="140">Username</th>
+        <th th:width="150">Password</th>
+        <th th:width="80">email</th>
+        <th th:width="80">role</th>
+        <th th:width="70">Edit</th>
+        <th th:width="70">Delete</th>
+    </tr>
+    <tr th:each="us: ${users}">
+        <td th:text="${us.id}">ID</td>
+        <td> <a th:href="@{/user/{id}(id=${us.getId()})}" th:text="${us.username}">Username</a></td>
+        <td th:text="${us.password}">Password</td>
+        <td th:text="${us.email}">email</td>
+        <td th:text="${us.getRoles()}">role</td>
+        <td> <a th:href="@{/admin/{id}/edit(id=${us.getId()})}">Edit </a></td>
+        <td> <form th:method="DELETE" th:action="@{/admin/{id}/(id=${us.getId()})}">
+            <input type="submit" value="Delete"/></form>
+        </form>
+        </td>
+
+    </tr>
+
+</table>
+
+
+<h1>Create new user</h1>
+
+<form th:method="POST" th:action="@{/admin}" th:object="${user}">
+    <label for="username">Enter username</label>
+    <input type="text" th:field = "*{username}" id="username"/>
+    <br>
+    <label for="password">Enter password</label>
+    <input type="text" th:field = "*{password}" id="password"/>
+    <br>
+    <label for="email">Enter email</label>
+    <input type="text" th:field = "*{email}" id="email"/>
+    <br>
+    <label for="roles">Enter role</label>
+        <select th:field = "*{roles}" multiple="multiple" id="roles">
+        <option th:value="ROLE_USER"> USER </option>
+        <option th:value="ROLE_ADMIN"> ADMIN </option>
+    </select>
+    <br>
+    <input type="submit" value = "Создать"/>
+</form>
+<br>
+<a href="/logout">Log out</a>
+</body>
+</html>
